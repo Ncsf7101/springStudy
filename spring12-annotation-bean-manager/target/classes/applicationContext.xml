@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+<!--        1.导入spring的坐标spring-context，对应版本是5.2.10.RELEASE-->
+<!--        2.配置bean-->
+<!--            bean标签表示配置bean-->
+<!--            id属性表示给bean起名字-->
+<!--            class属性表示被bean定义类型-->
+
+
+<!--     方式一：构造方法实例化bean     -->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" scope="prototype"/>-->
+<!--     方式二：使用静态工厂实例化bean-->
+<!--     <bean id="orderDao" class="com.rqiang.factory.OrderDaoFactory" factory-method="getOrderDao"/>-->
+     <!--     方式二：使用实例工厂实例化bean-->
+<!--     <bean id="userDaoFactory" class="com.rqiang.factory.UserDaoFactory"/>-->
+<!--     <bean id="userDao" factory-bean="userDaoFactory" factory-method="getUserDao"/>-->
+<!--     方式四： 使用FactoryBean 实例化bean-->
+
+<!--     标准书写-->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory">-->
+<!--          <constructor-arg name="connectionNum" value="100"/>-->
+<!--          <constructor-arg name="databaseName" value="mysql"/>-->
+<!--     </bean>-->
+<!--     <bean id="userDao" class="com.rqiang.dao.impl.UserDaoImpl" init-method="init" destroy-method="destory"/>-->
+<!--     <bean id="bookService" class="com.rqiang.service.impl.BookServiceImpl">-->
+<!--          <constructor-arg name="bookDao" ref="bookDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--          <constructor-arg name="userDao" ref="userDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--     </bean>-->
+<!--     解决形参名称的问题，与形参名不耦合-->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory">-->
+<!--          <constructor-arg type="int" value="100"/>-->
+<!--          <constructor-arg type="java.lang.String" value="mysql"/>-->
+<!--     </bean>-->
+<!--     <bean id="userDao" class="com.rqiang.dao.impl.UserDaoImpl" init-method="init" destroy-method="destory"/>-->
+<!--     <bean id="bookService" class="com.rqiang.service.impl.BookServiceImpl">-->
+<!--          <constructor-arg name="bookDao" ref="bookDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--          <constructor-arg name="userDao" ref="userDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--     </bean>-->
+
+<!--     解决参数类型重复问题，使用位置解决参数匹配-->
+
+<!--    管理DruidDateSource对象-->
+<!--    <bean class="com.alibaba.druid.pool.DruidDataSource">-->
+<!--        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>-->
+<!--        <property name="url" value="jdbc:mysql://localhost:3306/db_ssm"/>-->
+<!--        <property name="username" value="root"/>-->
+<!--        <property name="password" value="123456"/>-->
+<!--    </bean>-->
+<!--    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">-->
+<!--        <property name="driverClass" value="com.mysql.jdbc.Driver"/>-->
+<!--        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/db_ssm"/>-->
+<!--        <property name="user" value="root"/>-->
+<!--        <property name="password" value="123456"/>-->
+<!--        <property name="maxPoolSize" value="1000"/>-->
+<!--    </bean>-->
+<!--    1.开启context命名空间-->
+<!--    2.使用context空间加载properties文件-->
+<!--    system-properties-mode="NEVER" 不加载系统属性 ✔-->
+<!--    jdbc.properties, jdbc2.properties加载多个properties文件 -->
+<!--    *properties 加载所有的properties文件 ×-->
+<!--    classpath:*.properties 加载资源路径下的properties文件 ✔✔-->
+<!--    classpath*:*.properties 加载导入jar包及资源路径下的properties文件 ✔-->
+<!--    <context:property-placeholder location="classpath*:*.properties" system-properties-mode="NEVER"/>-->
+<!--&lt;!&ndash;    3.使用属性占位符${}读取properties文件中的属性&ndash;&gt;-->
+<!--    <bean class="com.alibaba.druid.pool.DruidDataSource">-->
+<!--        <property name="driverClassName" value="${jdbc.driver}"/>-->
+<!--        <property name="url" value="${jdbc.url}"/>-->
+<!--        <property name="username" value="${jdbc.username}"/>-->
+<!--        <property name="password" value="${jdbc.password}"/>-->
+<!--    </bean>-->
+<!--    lazy-init="true" 延迟加载参数-->
+<!--    <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl"/>-->
+<!--    核心配置文件中通过组件扫描加载bean-->
+<!--    <context:component-scan base-package="com.rqiang.dao.impl"/>-->
+    <context:component-scan base-package="com.rqiang"/>
+
+<!--     自动装配用于应用类型依赖注入，不能对简单类型操作-->
+<!--     按类型装配时(byType)必须保障容器中相同类型的bean唯一，推荐使用-->
+<!--     按名称装配时(byName)必须保障容器中具有指定名称的bean，因为变量名和配置耦合，不推荐使用-->
+<!--     自动装配autowire优先级低于setter注入与构造器注入，多种注入同时出现会自动装配配置失效-->
+<!---->
+
+     <!--        别名: <bean name="book1, book2; dao service"/>-->
+<!--    spring bean 默认配置Single单例的bean对象，可以通过输出对象地址验证-->
+<!--    默认为单例，可以通过修改bean配置属性更改为非单例 scope="singleton|prototype-->
+<!--    如果关系绑定，不管绑定关系是什么作用范围都以IOC取出的对象Scope为准，如：bean为prototype，bookService为singleton，取出对象为singleton-->
+<!--          7.配置service与dao的关系-->
+<!--          property标签表示配置当前bean的属性-->
+<!--          name属性表示配置哪一个具体的属性，即set+name的name方法名-->
+<!--          ref属性表示参照哪一个bean-->
+
+
+</beans>
+
+<!--适合交给IOC容器管理的bean-->
+<!--    表现层对象-->
+<!--    业务层对象-->
+<!--    数据从对象-->
+<!--    工具对象-->
+<!--不适合交给IOC容器管理的bean-->
+<!--    封装实体的域对象-->

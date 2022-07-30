@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+<!--        1.导入spring的坐标spring-context，对应版本是5.2.10.RELEASE-->
+<!--        2.配置bean-->
+<!--            bean标签表示配置bean-->
+<!--            id属性表示给bean起名字-->
+<!--            class属性表示被bean定义类型-->
+
+
+<!--     方式一：构造方法实例化bean     -->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" scope="prototype"/>-->
+<!--     方式二：使用静态工厂实例化bean-->
+<!--     <bean id="orderDao" class="com.rqiang.factory.OrderDaoFactory" factory-method="getOrderDao"/>-->
+     <!--     方式二：使用实例工厂实例化bean-->
+<!--     <bean id="userDaoFactory" class="com.rqiang.factory.UserDaoFactory"/>-->
+<!--     <bean id="userDao" factory-bean="userDaoFactory" factory-method="getUserDao"/>-->
+<!--     方式四： 使用FactoryBean 实例化bean-->
+
+<!--     标准书写-->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory">-->
+<!--          <constructor-arg name="connectionNum" value="100"/>-->
+<!--          <constructor-arg name="databaseName" value="mysql"/>-->
+<!--     </bean>-->
+<!--     <bean id="userDao" class="com.rqiang.dao.impl.UserDaoImpl" init-method="init" destroy-method="destory"/>-->
+<!--     <bean id="bookService" class="com.rqiang.service.impl.BookServiceImpl">-->
+<!--          <constructor-arg name="bookDao" ref="bookDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--          <constructor-arg name="userDao" ref="userDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--     </bean>-->
+<!--     解决形参名称的问题，与形参名不耦合-->
+<!--     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory">-->
+<!--          <constructor-arg type="int" value="100"/>-->
+<!--          <constructor-arg type="java.lang.String" value="mysql"/>-->
+<!--     </bean>-->
+<!--     <bean id="userDao" class="com.rqiang.dao.impl.UserDaoImpl" init-method="init" destroy-method="destory"/>-->
+<!--     <bean id="bookService" class="com.rqiang.service.impl.BookServiceImpl">-->
+<!--          <constructor-arg name="bookDao" ref="bookDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--          <constructor-arg name="userDao" ref="userDao"/>                     &lt;!&ndash;name=形参&ndash;&gt;-->
+<!--     </bean>-->
+
+<!--     解决参数类型重复问题，使用位置解决参数匹配-->
+     <bean id="bookDao" class="com.rqiang.dao.impl.BookDaoImpl" init-method="init" destroy-method="destory">
+          <constructor-arg index="0" value="1100"/>
+          <constructor-arg index="1" value="mysql"/>
+     </bean>
+     <bean id="userDao" class="com.rqiang.dao.impl.UserDaoImpl" init-method="init" destroy-method="destory"/>
+     <bean id="bookService" class="com.rqiang.service.impl.BookServiceImpl">
+          <constructor-arg name="bookDao" ref="bookDao"/>                     <!--name=形参-->
+          <constructor-arg name="userDao" ref="userDao"/>                     <!--name=形参-->
+     </bean>
+
+<!---->
+
+     <!--        别名: <bean name="book1, book2; dao service"/>-->
+<!--    spring bean 默认配置Single单例的bean对象，可以通过输出对象地址验证-->
+<!--    默认为单例，可以通过修改bean配置属性更改为非单例 scope="singleton|prototype-->
+<!--    如果关系绑定，不管绑定关系是什么作用范围都以IOC取出的对象Scope为准，如：bean为prototype，bookService为singleton，取出对象为singleton-->
+<!--          7.配置service与dao的关系-->
+<!--          property标签表示配置当前bean的属性-->
+<!--          name属性表示配置哪一个具体的属性，即set+name的name方法名-->
+<!--          ref属性表示参照哪一个bean-->
+
+
+</beans>
+
+<!--适合交给IOC容器管理的bean-->
+<!--    表现层对象-->
+<!--    业务层对象-->
+<!--    数据从对象-->
+<!--    工具对象-->
+<!--不适合交给IOC容器管理的bean-->
+<!--    封装实体的域对象-->

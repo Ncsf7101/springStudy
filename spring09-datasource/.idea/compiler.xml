@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spring06-di-constructor" />
+        <module name="spring07-di-autoware" />
+        <module name="spring09-datasource" />
+        <module name="spring04-bean-lifecycle" />
+        <module name="spring05-di-set" />
+        <module name="spring02-base-config" />
+        <module name="spring01" />
+        <module name="spring03-bean-instance" />
+        <module name="spring08-di-collection" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
